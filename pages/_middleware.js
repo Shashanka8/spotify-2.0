@@ -8,8 +8,8 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   // if user is already signedin, but goes to login page, redirect to home page
-  if (token && (pathname.includes('/login') || pathname === '/login')) {
-    return NextResponse.redirect('/');
+  if (token && pathname === '/login') {
+    return NextResponse.redirect(process.env.NEXTAUTH_URL);
   }
 
   // Allow the requests if the following is true...
