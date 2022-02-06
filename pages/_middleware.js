@@ -3,14 +3,16 @@ import { NextResponse } from 'next/server';
 
 export async function middleware(req) {
   // Token will extst if user is logged in
-  const token = await getToken({ req, secret: process.env.JWt_SECRET });
+  const token = await getToken({
+    req,
+    secret: process.env.JWt_SECRET,
+    raw: true,
+  });
 
   const { pathname } = req.nextUrl;
 
-  console.log(pathname, token);
-
   // if user is already signedin, but goes to login page, redirect to home page
-  if (token && pathname !== '/') {
+  if (token && pathname === '/login') {
     return NextResponse.redirect('/');
   }
 
