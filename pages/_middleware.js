@@ -8,7 +8,7 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   // if user is already signedin, but goes to login page, redirect to home page
-  if (token && pathname === '/login') {
+  if (token && (pathname.includes('/login') || pathname === '/login')) {
     return NextResponse.redirect('/');
   }
 
@@ -20,7 +20,7 @@ export async function middleware(req) {
   }
 
   // Redirect them to login if they dont have token AND are requesting a protected route
-  // if (!token && pathname !== '/login') {
-  //   return NextResponse.redirect('/login');
-  // }
+  if (!token && pathname !== '/login') {
+    return NextResponse.redirect('/login');
+  }
 }
