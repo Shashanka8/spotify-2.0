@@ -3,22 +3,16 @@ import { NextResponse } from 'next/server';
 
 export async function middleware(req) {
   // Token will extst if user is logged in
-  const token = await getToken({
-    req,
-    secret: process.env.JWt_SECRET,
-    secureCookie:
-      process.env.NEXTAUTH_URL?.startsWith('https://') ??
-      !!process.env.VERCEL_URL,
-  });
+  const token = await getToken({ req, secret: process.env.JWt_SECRET });
 
   const { pathname } = req.nextUrl;
 
   console.log(pathname, token);
 
   // if user is already signedin, but goes to login page, redirect to home page
-  if (token && pathname !== '/') {
-    return NextResponse.redirect('/');
-  }
+  // if (token && pathname === '/login') {
+  //   return NextResponse.redirect('/');
+  // }
 
   // Allow the requests if the following is true...
   // 1) Its a request for next-auth session & provider fetching
